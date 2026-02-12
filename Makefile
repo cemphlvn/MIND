@@ -36,11 +36,22 @@ CORE_LIB = $(BUILD_DIR)/libmind_core.a
 
 MIND_LIB = $(BUILD_DIR)/libmind.a
 
+# Shared library (for Python ctypes)
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    SHARED_EXT = dylib
+    SHARED_FLAGS = -dynamiclib -install_name @rpath/libmind.dylib
+else
+    SHARED_EXT = so
+    SHARED_FLAGS = -shared -fPIC
+endif
+MIND_SHARED = $(BUILD_DIR)/libmind.$(SHARED_EXT)
+
 #=============================================================================
 # TARGETS
 #=============================================================================
 
-.PHONY: all clean foundation core example test install
+.PHONY: all clean foundation core shared example test install python-test
 
 all: $(MIND_LIB)
 
@@ -76,12 +87,30 @@ $(CORE_LIB): $(CORE_OBJ)
 	ar rcs $@ $^
 
 #-----------------------------------------------------------------------------
-# Combined library
+# Combined library (static)
 #-----------------------------------------------------------------------------
 
 $(MIND_LIB): $(FOUNDATION_LIB) $(CORE_LIB)
 	rm -f $@
 	ar rcs $@ $(FOUNDATION_OBJ) $(CORE_OBJ)
+
+#-----------------------------------------------------------------------------
+# Shared library (for Python/FFI)
+#-----------------------------------------------------------------------------
+
+FOUNDATION_OBJ_PIC = $(BUILD_DIR)/foundation/mind_vec.pic.o
+CORE_OBJ_PIC = $(patsubst core/src/%.c,$(BUILD_DIR)/core/%.pic.o,$(CORE_SRC))
+
+shared: $(MIND_SHARED)
+
+$(BUILD_DIR)/foundation/%.pic.o: foundation/src/%.c | $(BUILD_DIR)/foundation
+	$(CC) $(CFLAGS) -fPIC -I$(FOUNDATION_INC) -c $< -o $@
+
+$(BUILD_DIR)/core/%.pic.o: core/src/%.c | $(BUILD_DIR)/core
+	$(CC) $(CFLAGS) -fPIC -I$(CORE_INC) -I$(FOUNDATION_INC) -c $< -o $@
+
+$(MIND_SHARED): $(FOUNDATION_OBJ_PIC) $(CORE_OBJ_PIC)
+	$(CC) $(SHARED_FLAGS) -o $@ $^ $(LDFLAGS)
 
 #-----------------------------------------------------------------------------
 # Example
@@ -102,6 +131,13 @@ test: $(BUILD_DIR)/test_basic
 
 $(BUILD_DIR)/test_basic: tests/test_basic.c $(MIND_LIB)
 	$(CC) $(CFLAGS) -I$(CORE_INC) -I$(FOUNDATION_INC) $< -L$(BUILD_DIR) -lmind $(LDFLAGS) -o $@
+
+#-----------------------------------------------------------------------------
+# Python tests (requires shared library)
+#-----------------------------------------------------------------------------
+
+python-test: $(MIND_SHARED)
+	MIND_LIB_PATH=$(CURDIR)/$(MIND_SHARED) PYTHONPATH=external/bindings/python python3 -m mind.tests.test_basic
 
 #-----------------------------------------------------------------------------
 # Clean
