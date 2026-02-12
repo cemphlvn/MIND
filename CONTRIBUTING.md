@@ -39,7 +39,7 @@ Good bug reports include:
 - Expected vs actual behavior
 - Relevant configuration
 
-File issues at: [GitHub Issues](https://github.com/mind-project/mind.c/issues)
+File issues at: [GitHub Issues](https://github.com/cemphlvn/MIND/issues)
 
 ### 2. Documentation
 
@@ -70,8 +70,8 @@ For significant changes, open a discussion first:
 
 ```bash
 # Clone
-git clone https://github.com/mind-project/mind.c.git
-cd mind.c
+git clone https://github.com/cemphlvn/MIND.git
+cd MIND
 
 # Build
 mkdir build && cd build
@@ -190,8 +190,8 @@ See [GOVERNANCE.md](GOVERNANCE.md) for details.
 
 ## Questions?
 
-- Open a [Discussion](https://github.com/mind-project/mind.c/discussions)
-- Review existing [Issues](https://github.com/mind-project/mind.c/issues)
+- Open a [Discussion](https://github.com/cemphlvn/MIND/discussions)
+- Review existing [Issues](https://github.com/cemphlvn/MIND/issues)
 
 ## Recognition
 

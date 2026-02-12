@@ -103,5 +103,5 @@ These will never change without major version bump AND RFC:
 
 ---
 
-[Unreleased]: https://github.com/mind-project/mind.c/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/mind-project/mind.c/releases/tag/v0.1.0
+[Unreleased]: https://github.com/cemphlvn/MIND/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/cemphlvn/MIND/releases/tag/v0.1.0

@@ -134,8 +134,8 @@ cr_state_load(st, "memory.state");
 ### Build
 
 ```bash
-git clone https://github.com/anthropics/mind.c
-cd mind.c
+git clone https://github.com/cemphlvn/MIND
+cd MIND
 make
 ```
 
