@@ -197,17 +197,13 @@ int cr_state_update(
         /*
          * REINFORCE existing invariant
          *
-         * Interpolation formula:
+         * Interpolation formula (via foundation):
          *   new = old × (1 - plasticity) + input × plasticity
          *
          * When plastic (=1.0): new = input (full adoption)
          * When stable (=ε):    new ≈ old (minimal change)
          */
-        for (int i = 0; i < dim; i++) {
-            best->vector[i] =
-                best->vector[i] * (1.0f - st->plasticity) +
-                embedding[i] * st->plasticity;
-        }
+        mind_vec_lerp(best->vector, embedding, st->plasticity, best->vector, dim);
         best->weight += 1.0f;
         reinforced = 1;
 
