@@ -1,0 +1,126 @@
+<!--
+  Copyright 2026 The MIND Contributors
+  Licensed under the Apache License, Version 2.0
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIND — Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root { --bg:#f5f5f5; --fg:#000; --border:3px solid #000; }
+    body {
+      margin:0; background:var(--bg); color:var(--fg);
+      font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    }
+    header,footer {
+      border-bottom:var(--border);
+      padding:24px; display:flex; justify-content:space-between;
+    }
+    footer { border-top:var(--border); border-bottom:none; font-size:14px; }
+    h1 { margin:0; font-size:28px; letter-spacing:0.12em; }
+    main { padding:64px 24px; max-width:900px; }
+    section { border-top:var(--border); padding-top:48px; margin-bottom:72px; }
+    h2 { font-size:22px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:16px; }
+    p { font-size:18px; max-width:720px; }
+    pre { background:#fff; border:2px solid #000; padding:16px; overflow-x:auto; font-size:15px; }
+    code { font-family:ui-monospace,Menlo,monospace; }
+    a { color:var(--fg); text-decoration:none; border-bottom:2px solid #000; }
+    a:hover { background:#000; color:#fff; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>MIND</h1>
+  <span>Documentation</span>
+</header>
+
+<main>
+
+  <section>
+    <h2>Overview</h2>
+    <p>
+      MIND is a local cognitive runtime.
+      It accepts embeddings as experience and returns compressed hints.
+      It does not generate language or reasoning.
+    </p>
+  </section>
+
+  <section>
+    <h2>Core loop</h2>
+    <pre><code>cr_state_update(state, embedding, dim, delta_t);
+cr_state_query(state, query, dim, &hint);
+cr_state_plasticity(state, &meta);</code></pre>
+    <p>
+      This loop is sufficient to integrate MIND into any system.
+    </p>
+  </section>
+
+  <section>
+    <h2>Plasticity</h2>
+    <p>
+      Plasticity represents how malleable the system is.
+      High plasticity implies low commitment.
+      Plasticity decays only through reinforcement.
+    </p>
+  </section>
+
+  <section>
+    <h2>Age</h2>
+    <p>
+      Age is continuous experiential time.
+      It advances only via caller-supplied delta values.
+      No wall-clock time is used.
+    </p>
+  </section>
+
+  <section>
+    <h2>Hints</h2>
+    <p>
+      Queries return hints, not answers.
+      Each hint includes a confidence value derived from:
+      similarity, reinforcement, and stability.
+    </p>
+  </section>
+
+  <section>
+    <h2>S2S Calibration</h2>
+    <p>
+      MIND exports calibration signals for server-to-server coevolution.
+      Signals contain meta-cognitive state, not memory content.
+    </p>
+    <pre><code>cr_calibration_t cal;
+cr_state_calibration(state, &cal);
+// cal.age, cal.plasticity, cal.velocity, cal.maturity</code></pre>
+  </section>
+
+  <section>
+    <h2>Determinism</h2>
+    <p>
+      Given identical inputs and ordering,
+      MIND evolves identically across machines.
+    </p>
+  </section>
+
+  <section>
+    <h2>Persistence</h2>
+    <p>
+      State can be saved and restored explicitly.
+      A saved state represents accumulated experience,
+      not a model snapshot.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <span>Apache-2.0</span>
+  <span><a href="index.html">Home</a></span>
+</footer>
+
+</body>
+</html>

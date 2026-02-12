@@ -1,0 +1,112 @@
+<!--
+  Copyright 2026 The MIND Contributors
+  Licensed under the Apache License, Version 2.0
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIND — Specification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root { --bg:#f5f5f5; --fg:#000; --border:3px solid #000; }
+    body {
+      margin:0; background:var(--bg); color:var(--fg);
+      font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    }
+    header,footer {
+      border-bottom:var(--border);
+      padding:24px; display:flex; justify-content:space-between;
+    }
+    footer { border-top:var(--border); border-bottom:none; font-size:14px; }
+    h1 { margin:0; font-size:28px; letter-spacing:0.12em; }
+    main { padding:64px 24px; max-width:900px; }
+    section { border-top:var(--border); padding-top:48px; margin-bottom:72px; }
+    h2 { font-size:22px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:16px; }
+    p { font-size:18px; max-width:720px; }
+    pre { border:2px solid #000; padding:16px; background:#fff; font-size:15px; overflow-x:auto; }
+    code { font-family:ui-monospace,Menlo,monospace; }
+    a { color:var(--fg); text-decoration:none; border-bottom:2px solid #000; }
+    a:hover { background:#000; color:#fff; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>MIND</h1>
+  <span>Specification</span>
+</header>
+
+<main>
+
+  <section>
+    <h2>Scope</h2>
+    <p>
+      This document specifies the observable behavior and invariants of the
+      MIND runtime. It is intentionally implementation-agnostic.
+    </p>
+  </section>
+
+  <section>
+    <h2>Core entities</h2>
+    <pre><code>runtime → execution context
+state   → persistent cognitive memory
+hint    → compressed recall output</code></pre>
+  </section>
+
+  <section>
+    <h2>Constants</h2>
+    <pre><code>CR_EPSILON        = 0.05   // plasticity floor
+CR_SIM_THRESHOLD  = 0.85   // reinforcement threshold
+CR_DECAY_RATE     = 0.995  // crystallization rate
+CR_RECOVERY_RATE  = 1.0005 // openness recovery</code></pre>
+  </section>
+
+  <section>
+    <h2>Plasticity</h2>
+    <p>
+      Plasticity ∈ (ε, 1]. It measures malleability.
+      Plasticity decays only through reinforcement.
+      Plasticity never reaches zero.
+    </p>
+  </section>
+
+  <section>
+    <h2>Confidence</h2>
+    <pre><code>confidence = similarity × stability × weight_factor
+
+stability = 1 - plasticity
+weight_factor = weight / (weight + 1)</code></pre>
+    <p>
+      Confidence is derived, never asserted.
+    </p>
+  </section>
+
+  <section>
+    <h2>Determinism</h2>
+    <p>
+      Given identical inputs, ordering, and delta values,
+      the system must evolve identically across machines.
+    </p>
+  </section>
+
+  <section>
+    <h2>Non-goals</h2>
+    <p>
+      This specification excludes text generation,
+      tokenization, probabilistic randomness,
+      and gradient-based learning.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <span>Apache-2.0</span>
+  <span><a href="index.html">Home</a></span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+MIND - Local Cognitive Runtime
+Copyright 2026 The MIND Contributors
+
+This product includes software developed at
+The MIND Project (https://github.com/anthropics/mind.c).
+
+Licensed under the Apache License, Version 2.0.
+
+================================================================================
+
+This software is designed to accumulate experience slowly and transparently.
+It does not generate text, reason symbolically, or replace foundation models.
+It provides persistent cognitive memory for systems that need continuity.
+
+================================================================================
+
+Third-Party Notices:
+
+This project has no third-party dependencies.
+It uses only the C11 standard library and libm.
+
+================================================================================
+
+The following contributors have made this project possible:
+
+See CONTRIBUTORS.md for the full list.

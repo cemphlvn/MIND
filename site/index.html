@@ -1,0 +1,216 @@
+<!--
+  Copyright 2026 The MIND Contributors
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIND</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Deterministic cognitive runtime for persistent local memory">
+
+  <style>
+    :root {
+      --bg: #f5f5f5;
+      --fg: #000000;
+      --border: 3px solid #000000;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      border-bottom: var(--border);
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: 0.15em;
+    }
+
+    header nav {
+      font-size: 14px;
+    }
+
+    header nav a {
+      margin-left: 24px;
+    }
+
+    main {
+      padding: 64px 24px;
+      max-width: 900px;
+    }
+
+    .hero {
+      margin-bottom: 96px;
+    }
+
+    .hero h2 {
+      font-size: 56px;
+      line-height: 1.1;
+      margin: 0 0 24px 0;
+    }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 720px;
+    }
+
+    section {
+      border-top: var(--border);
+      padding-top: 48px;
+      margin-bottom: 72px;
+    }
+
+    section h3 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    section p {
+      font-size: 18px;
+      max-width: 720px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      padding: 12px 0;
+      border-bottom: 1px solid #000;
+      font-size: 18px;
+    }
+
+    pre {
+      background: #fff;
+      border: 2px solid #000;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 15px;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    footer {
+      border-top: var(--border);
+      padding: 24px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    a {
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 2px solid #000;
+    }
+
+    a:hover {
+      background: #000;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>MIND</h1>
+  <nav>
+    <a href="principles.html">Principles</a>
+    <a href="docs.html">Docs</a>
+    <a href="spec.html">Spec</a>
+    <a href="https://github.com/mind-project/mind.c">GitHub</a>
+  </nav>
+</header>
+
+<main>
+
+  <div class="hero">
+    <h2>Memory<br>Before Intelligence</h2>
+    <p>
+      MIND is a deterministic runtime for accumulating experience.
+      It does not generate text.
+      It does not pretend to think.
+      It remembers—slowly, transparently, and without confidence inflation.
+    </p>
+  </div>
+
+  <section>
+    <h3>What it is</h3>
+    <p>
+      A small C runtime that stores compressed invariants from embeddings.
+      It exposes its own plasticity and age.
+      It survives model replacement.
+    </p>
+  </section>
+
+  <section>
+    <h3>What it is not</h3>
+    <ul>
+      <li>Not a chatbot</li>
+      <li>Not an agent framework</li>
+      <li>Not prompt engineering</li>
+      <li>Not probabilistic theater</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Quick start</h3>
+    <pre><code>git clone https://github.com/mind-project/mind.c
+cd mind.c
+mkdir build && cd build
+cmake ..
+make
+./mind_example</code></pre>
+  </section>
+
+  <section>
+    <h3>Core loop</h3>
+    <pre><code>cr_state_update(state, embedding, dim, delta_t);
+cr_state_query(state, query, dim, &hint);
+cr_state_plasticity(state, &meta);</code></pre>
+  </section>
+
+  <section>
+    <h3>Design invariant</h3>
+    <p>
+      The system prefers being wrong early to being rigid later.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <span>Apache-2.0</span>
+  <span>v0.1.0</span>
+</footer>
+
+</body>
+</html>
