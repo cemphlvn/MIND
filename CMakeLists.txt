@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.10)
 # Project definition
 project(mind
     VERSION 0.1.0
-    DESCRIPTION "Deterministic cognitive runtime for persistent local memory"
+    DESCRIPTION "Self-evolving cognitive runtime and memory layer for AI systems"
     LANGUAGES C
 )
 
@@ -58,36 +58,72 @@ if(MSVC)
 endif()
 
 #=============================================================================
-# Library
+# FOUNDATION (Layer 0) - Pure math, never changes
+#=============================================================================
+
+add_library(mind_foundation STATIC
+    foundation/src/mind_vec.c
+)
+
+target_include_directories(mind_foundation
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foundation/include>
+        $<INSTALL_INTERFACE:include/mind>
+)
+
+if(UNIX)
+    target_link_libraries(mind_foundation PRIVATE m)
+endif()
+
+#=============================================================================
+# CORE (Layer 1) - Cognitive memory
+#=============================================================================
+
+add_library(mind_core STATIC
+    core/src/cr_runtime.c
+    core/src/cr_state.c
+    core/src/cr_query.c
+    core/src/cr_temporal.c
+    core/src/cr_persist.c
+)
+
+target_include_directories(mind_core
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/core/include>
+        $<INSTALL_INTERFACE:include/mind>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/foundation/include
+)
+
+target_link_libraries(mind_core PRIVATE mind_foundation)
+
+#=============================================================================
+# COMBINED LIBRARY (for convenience)
 #=============================================================================
 
 add_library(mind STATIC
-    src/cr_runtime.c
-    src/cr_state.c
-    src/cr_query.c
-    src/cr_temporal.c
-    src/cr_persist.c
+    foundation/src/mind_vec.c
+    core/src/cr_runtime.c
+    core/src/cr_state.c
+    core/src/cr_query.c
+    core/src/cr_temporal.c
+    core/src/cr_persist.c
 )
 
-# Include directories
 target_include_directories(mind
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/foundation/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/core/include>
+        $<INSTALL_INTERFACE:include/mind>
 )
 
-# Link math library (required for sqrtf)
 if(UNIX)
     target_link_libraries(mind PRIVATE m)
 endif()
 
-# Set library properties
 set_target_properties(mind PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
-    PUBLIC_HEADER include/cr.h
 )
 
 #=============================================================================
@@ -106,11 +142,11 @@ option(BUILD_TESTS "Build tests" ON)
 if(BUILD_TESTS)
     enable_testing()
 
-    # Basic test (runs the example)
-    add_test(
-        NAME example_runs
-        COMMAND mind_example
-    )
+    add_executable(test_basic tests/test_basic.c)
+    target_link_libraries(test_basic PRIVATE mind)
+
+    add_test(NAME basic_tests COMMAND test_basic)
+    add_test(NAME example_runs COMMAND mind_example)
 endif()
 
 #=============================================================================
@@ -119,12 +155,17 @@ endif()
 
 include(GNUInstallDirs)
 
-install(TARGETS mind
+install(TARGETS mind mind_foundation mind_core
     EXPORT mind-targets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(FILES
+    foundation/include/mind_vec.h
+    core/include/cr.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mind
 )
 
 install(EXPORT mind-targets
@@ -156,6 +197,10 @@ install(FILES
 
 message(STATUS "")
 message(STATUS "MIND v${PROJECT_VERSION}")
+message(STATUS "")
+message(STATUS "  Layers:")
+message(STATUS "    - foundation (Layer 0): Pure math")
+message(STATUS "    - core (Layer 1):       Cognitive memory")
 message(STATUS "")
 message(STATUS "  Build type:     ${CMAKE_BUILD_TYPE}")
 message(STATUS "  C compiler:     ${CMAKE_C_COMPILER}")

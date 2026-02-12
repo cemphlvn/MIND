@@ -5,60 +5,120 @@ CC ?= cc
 CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -fno-fast-math -O2
 LDFLAGS = -lm
 
-SRC_DIR = src
-INC_DIR = include
 BUILD_DIR = build
-EXAMPLES_DIR = examples
-TESTS_DIR = tests
 
-# Source files
-SRCS = $(SRC_DIR)/cr_runtime.c \
-       $(SRC_DIR)/cr_state.c \
-       $(SRC_DIR)/cr_query.c \
-       $(SRC_DIR)/cr_temporal.c \
-       $(SRC_DIR)/cr_persist.c
+#=============================================================================
+# FOUNDATION (Layer 0) - Pure math, never changes
+#=============================================================================
 
-OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
+FOUNDATION_SRC = foundation/src/mind_vec.c
+FOUNDATION_INC = foundation/include
+FOUNDATION_OBJ = $(BUILD_DIR)/foundation/mind_vec.o
+FOUNDATION_LIB = $(BUILD_DIR)/libmind_foundation.a
 
-# Library
-LIB = $(BUILD_DIR)/libmind.a
+#=============================================================================
+# CORE (Layer 1) - Cognitive memory
+#=============================================================================
 
-# Targets
-.PHONY: all clean example test
+CORE_SRC = core/src/cr_runtime.c \
+           core/src/cr_state.c \
+           core/src/cr_query.c \
+           core/src/cr_temporal.c \
+           core/src/cr_persist.c
 
-all: $(LIB)
+CORE_INC = core/include
+CORE_OBJ = $(patsubst core/src/%.c,$(BUILD_DIR)/core/%.o,$(CORE_SRC))
+CORE_LIB = $(BUILD_DIR)/libmind_core.a
 
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+#=============================================================================
+# COMBINED LIBRARY
+#=============================================================================
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -I$(INC_DIR) -I$(SRC_DIR) -c $< -o $@
+MIND_LIB = $(BUILD_DIR)/libmind.a
 
-$(LIB): $(OBJS)
+#=============================================================================
+# TARGETS
+#=============================================================================
+
+.PHONY: all clean foundation core example test install
+
+all: $(MIND_LIB)
+
+# Create build directories
+$(BUILD_DIR)/foundation:
+	mkdir -p $@
+
+$(BUILD_DIR)/core:
+	mkdir -p $@
+
+#-----------------------------------------------------------------------------
+# Foundation
+#-----------------------------------------------------------------------------
+
+foundation: $(FOUNDATION_LIB)
+
+$(BUILD_DIR)/foundation/%.o: foundation/src/%.c | $(BUILD_DIR)/foundation
+	$(CC) $(CFLAGS) -I$(FOUNDATION_INC) -c $< -o $@
+
+$(FOUNDATION_LIB): $(FOUNDATION_OBJ)
 	ar rcs $@ $^
 
+#-----------------------------------------------------------------------------
+# Core (depends on Foundation)
+#-----------------------------------------------------------------------------
+
+core: $(CORE_LIB)
+
+$(BUILD_DIR)/core/%.o: core/src/%.c | $(BUILD_DIR)/core
+	$(CC) $(CFLAGS) -I$(CORE_INC) -I$(FOUNDATION_INC) -c $< -o $@
+
+$(CORE_LIB): $(CORE_OBJ)
+	ar rcs $@ $^
+
+#-----------------------------------------------------------------------------
+# Combined library
+#-----------------------------------------------------------------------------
+
+$(MIND_LIB): $(FOUNDATION_LIB) $(CORE_LIB)
+	rm -f $@
+	ar rcs $@ $(FOUNDATION_OBJ) $(CORE_OBJ)
+
+#-----------------------------------------------------------------------------
 # Example
+#-----------------------------------------------------------------------------
+
 example: $(BUILD_DIR)/mind_example
 	./$(BUILD_DIR)/mind_example
 
-$(BUILD_DIR)/mind_example: $(EXAMPLES_DIR)/minimal.c $(LIB)
-	$(CC) $(CFLAGS) -I$(INC_DIR) $< -L$(BUILD_DIR) -lmind $(LDFLAGS) -o $@
+$(BUILD_DIR)/mind_example: examples/minimal.c $(MIND_LIB)
+	$(CC) $(CFLAGS) -I$(CORE_INC) -I$(FOUNDATION_INC) $< -L$(BUILD_DIR) -lmind $(LDFLAGS) -o $@
 
+#-----------------------------------------------------------------------------
 # Tests
+#-----------------------------------------------------------------------------
+
 test: $(BUILD_DIR)/test_basic
 	./$(BUILD_DIR)/test_basic
 
-$(BUILD_DIR)/test_basic: $(TESTS_DIR)/test_basic.c $(LIB)
-	$(CC) $(CFLAGS) -I$(INC_DIR) $< -L$(BUILD_DIR) -lmind $(LDFLAGS) -o $@
+$(BUILD_DIR)/test_basic: tests/test_basic.c $(MIND_LIB)
+	$(CC) $(CFLAGS) -I$(CORE_INC) -I$(FOUNDATION_INC) $< -L$(BUILD_DIR) -lmind $(LDFLAGS) -o $@
+
+#-----------------------------------------------------------------------------
+# Clean
+#-----------------------------------------------------------------------------
 
 clean:
 	rm -rf $(BUILD_DIR)
 
-# Install (prefix defaults to /usr/local)
+#-----------------------------------------------------------------------------
+# Install
+#-----------------------------------------------------------------------------
+
 PREFIX ?= /usr/local
 
-install: $(LIB)
+install: $(MIND_LIB)
 	install -d $(PREFIX)/lib
-	install -d $(PREFIX)/include
-	install -m 644 $(LIB) $(PREFIX)/lib/
-	install -m 644 $(INC_DIR)/cr.h $(PREFIX)/include/
+	install -d $(PREFIX)/include/mind
+	install -m 644 $(MIND_LIB) $(PREFIX)/lib/
+	install -m 644 $(FOUNDATION_INC)/mind_vec.h $(PREFIX)/include/mind/
+	install -m 644 $(CORE_INC)/cr.h $(PREFIX)/include/mind/

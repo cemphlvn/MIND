@@ -209,13 +209,30 @@ while True:
 
 ---
 
+## Project Structure
+
+```
+MIND/
+├── foundation/     # Layer 0: Pure math (never changes)
+├── core/           # Layer 1: Cognitive memory
+├── external/       # Bindings, integrations, protocols
+├── docs/           # Documentation
+├── examples/
+└── tests/
+```
+
+See [LAYERS.md](LAYERS.md) for architecture details.
+
+---
+
 ## Documentation
 
 | Document | Description |
 |----------|-------------|
-| [docs/API.md](docs/API.md) | Complete API reference |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Internal design |
-| [docs/S2S_PROTOCOL.md](docs/S2S_PROTOCOL.md) | Server-to-server calibration |
+| [LAYERS.md](LAYERS.md) | Layered architecture |
+| [docs/architecture/API.md](docs/architecture/API.md) | Complete API reference |
+| [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) | Internal design |
+| [docs/architecture/S2S_PROTOCOL.md](docs/architecture/S2S_PROTOCOL.md) | Server-to-server calibration |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
 | [GOVERNANCE.md](GOVERNANCE.md) | Project governance |
 | [SECURITY.md](SECURITY.md) | Security policy |
@@ -287,4 +304,4 @@ MIND embodies a specific stance on AI memory:
 4. **Plasticity must be visible** — No hidden authority
 5. **Models are replaceable** — Experience transcends implementations
 
-For the full principles, see [site/principles.html](site/principles.html).
+For the full principles, see [docs/site/principles.html](docs/site/principles.html).

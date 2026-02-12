@@ -23,41 +23,13 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 #include "cr.h"
 #include "cr_internal.h"
+#include "mind_vec.h"
 
-/*============================================================================
- * Utility Functions
- *============================================================================*/
-
-/**
- * @brief Compute cosine similarity between two vectors
- *
- * Cosine similarity measures the angle between vectors, ignoring magnitude.
- * This is appropriate because we care about shape, not scale.
- *
- * @param a First vector
- * @param b Second vector
- * @param dim Dimension
- * @return Similarity in [-1, 1], or 0 if either vector is zero
- */
+/* Core uses foundation for vector math */
 float cr_cosine_similarity(const float* a, const float* b, int dim) {
-    float dot = 0.0f;
-    float norm_a = 0.0f;
-    float norm_b = 0.0f;
-
-    for (int i = 0; i < dim; i++) {
-        dot += a[i] * b[i];
-        norm_a += a[i] * a[i];
-        norm_b += b[i] * b[i];
-    }
-
-    if (norm_a == 0.0f || norm_b == 0.0f) {
-        return 0.0f;
-    }
-
-    return dot / (sqrtf(norm_a) * sqrtf(norm_b));
+    return mind_vec_cosine(a, b, dim);
 }
 
 /*============================================================================
