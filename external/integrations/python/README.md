@@ -44,3 +44,15 @@ From the repository root:
 ```bash
 make integration-test
 ```
+
+## Example
+
+A runnable perception-to-memory loop (observe → embed → update → query → persist),
+using a deterministic synthetic observation stream — see `mind_integrations/examples.py`:
+
+```bash
+make shared
+MIND_LIB_PATH=$(pwd)/build/libmind.dylib \
+  PYTHONPATH=external/bindings/python:external/integrations/python \
+  python3 -m mind_integrations.examples
+```

@@ -139,9 +139,10 @@ $(BUILD_DIR)/test_basic: tests/test_basic.c $(MIND_LIB)
 python-test: $(MIND_SHARED)
 	MIND_LIB_PATH=$(CURDIR)/$(MIND_SHARED) PYTHONPATH=external/bindings/python python3 -m mind.tests.test_basic
 
-# Integration tests (provider-agnostic embedding adapter; requires shared library)
+# Integration tests (provider-agnostic embedding adapter + example; requires shared library)
 integration-test: $(MIND_SHARED)
 	MIND_LIB_PATH=$(CURDIR)/$(MIND_SHARED) PYTHONPATH=external/bindings/python:external/integrations/python python3 -m mind_integrations.tests.test_adapter
+	MIND_LIB_PATH=$(CURDIR)/$(MIND_SHARED) PYTHONPATH=external/bindings/python:external/integrations/python python3 -m mind_integrations.tests.test_examples
 
 #-----------------------------------------------------------------------------
 # Clean
