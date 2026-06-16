@@ -56,3 +56,22 @@ MIND_LIB_PATH=$(pwd)/build/libmind.dylib \
   PYTHONPATH=external/bindings/python:external/integrations/python \
   python3 -m mind_integrations.examples
 ```
+
+## Grounding (fixture-first)
+
+`mind_integrations.grounding` turns feed items (RSS/Atom or JSON Feed) into
+observations and feeds them into MIND. It is **source-agnostic** and reads only
+local files by default — see the fixtures under `mind_integrations/fixtures/`.
+
+```python
+from mind import MindState
+from mind_integrations import EmbeddingAdapter, GroundingAdapter, hash_embedding
+
+state = MindState(dim=32, slots=64)
+adapter = EmbeddingAdapter(state, lambda t: hash_embedding(t, 32))
+GroundingAdapter(adapter).ingest_feed_file("path/to/feed.xml")
+```
+
+Live fetching is intentionally not implemented yet and is gated on an allowlist.
+The chosen live sources are **RSS-Bridge** and the **Fediverse APIs** (Chromium
+fallback). See [GROUNDING.md](GROUNDING.md) for the live-source posture.

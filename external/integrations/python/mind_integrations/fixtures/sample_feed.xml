@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic sample feed for tests. Not real data. Domains use the reserved
+     example.invalid TLD on purpose. -->
+<rss version="2.0">
+  <channel>
+    <title>Sample Market Feed</title>
+    <link>https://example.invalid/feed</link>
+    <description>A synthetic sample feed for tests.</description>
+    <item>
+      <title>Market prices rising</title>
+      <description>Equity indices opened higher across the board.</description>
+      <link>https://example.invalid/1</link>
+      <guid>sample-1</guid>
+    </item>
+    <item>
+      <title>Clear skies forecast</title>
+      <description>Meteorologists expect sunshine through the weekend.</description>
+      <link>https://example.invalid/2</link>
+      <guid>sample-2</guid>
+    </item>
+    <item>
+      <title>Market prices rising</title>
+      <description>Equity indices opened higher across the board.</description>
+      <link>https://example.invalid/3</link>
+      <guid>sample-3</guid>
+    </item>
+  </channel>
+</rss>

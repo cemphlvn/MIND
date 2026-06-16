@@ -18,3 +18,6 @@ dependencies = []
 
 [tool.setuptools]
 packages = ["mind_integrations", "mind_integrations.tests"]
+
+[tool.setuptools.package-data]
+mind_integrations = ["fixtures/*"]

@@ -22,6 +22,22 @@ PYTHONPATH) but makes no assumptions about embedding semantics.
 
 from mind_integrations.adapter import EmbeddingAdapter, feed_text
 from mind_integrations.embedders import hash_embedding
+from mind_integrations.grounding import (
+    FeedItem,
+    GroundingAdapter,
+    item_to_text,
+    read_feed,
+    read_feed_file,
+)
 
 __version__ = "0.1.0"
-__all__ = ["EmbeddingAdapter", "feed_text", "hash_embedding"]
+__all__ = [
+    "EmbeddingAdapter",
+    "feed_text",
+    "hash_embedding",
+    "GroundingAdapter",
+    "FeedItem",
+    "read_feed",
+    "read_feed_file",
+    "item_to_text",
+]

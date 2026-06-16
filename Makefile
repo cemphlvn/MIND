@@ -143,6 +143,7 @@ python-test: $(MIND_SHARED)
 integration-test: $(MIND_SHARED)
 	MIND_LIB_PATH=$(CURDIR)/$(MIND_SHARED) PYTHONPATH=external/bindings/python:external/integrations/python python3 -m mind_integrations.tests.test_adapter
 	MIND_LIB_PATH=$(CURDIR)/$(MIND_SHARED) PYTHONPATH=external/bindings/python:external/integrations/python python3 -m mind_integrations.tests.test_examples
+	MIND_LIB_PATH=$(CURDIR)/$(MIND_SHARED) PYTHONPATH=external/bindings/python:external/integrations/python python3 -m mind_integrations.tests.test_grounding
 
 #-----------------------------------------------------------------------------
 # Clean
