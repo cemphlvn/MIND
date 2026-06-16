@@ -21,3 +21,8 @@ Each integration should:
 ```
 User Text → Provider → Embedding → MIND → Hints
 ```
+
+## Ecosystem Design Note
+
+For how MIND sits inside a larger continuous loop (grounding sources, inference, accelerator
+choice) — and why none of it touches core — see [`ecosystem.tr.md`](ecosystem.tr.md) (Türkçe).
