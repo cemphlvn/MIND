@@ -1,0 +1,20 @@
+# Copyright 2026 The MIND Contributors
+# Licensed under the Apache License, Version 2.0
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mind-integrations"
+version = "0.1.0"
+description = "Provider-agnostic adapters from text to MIND cognitive memory"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "Apache-2.0" }
+# Zero third-party dependencies. Requires the `mind` binding on the PYTHONPATH
+# at runtime; that binding is itself dependency-free (pure ctypes).
+dependencies = []
+
+[tool.setuptools]
+packages = ["mind_integrations", "mind_integrations.tests"]
