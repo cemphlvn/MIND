@@ -1,0 +1,19 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "Sample Fediverse Feed",
+  "home_page_url": "https://example.invalid/",
+  "items": [
+    {
+      "id": "fedi-1",
+      "title": "New chip announced",
+      "content_text": "A vendor unveiled a new accelerator at a conference.",
+      "url": "https://example.invalid/n1"
+    },
+    {
+      "id": "fedi-2",
+      "title": "Local team wins",
+      "content_text": "The home side secured a decisive victory.",
+      "url": "https://example.invalid/n2"
+    }
+  ]
+}
