@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing to MIND.
 
+> Languages / Diller: **English** · [Türkçe](CONTRIBUTING.tr.md)
+
 This document explains how to contribute effectively while maintaining
 the project's core principles and quality standards.
 

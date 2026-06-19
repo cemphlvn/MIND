@@ -2,6 +2,8 @@
 
 **A self-evolving cognitive runtime and memory layer for AI systems.**
 
+> Languages / Diller: **English** · [Türkçe](README.tr.md)
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
